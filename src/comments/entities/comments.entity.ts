@@ -26,13 +26,19 @@ export class CommentsEntity {
   createdBy: number;
 
   @Column()
-  postId: number;
+  updatedOn: Date;
 
   @Column()
-  userId: number;
+  updatedBy: number;
+
+  @Column()
+  blogId: number;
+
+  @Column()
+  userName: string;
 
   @ManyToOne(() => BlogsEntity, (post) => post.comments)
-  @JoinColumn({ name: 'postId' })
+  @JoinColumn({ name: 'blogId' })
   blog: BlogsEntity;
 
   @ManyToOne(() => UsersEntity, (user) => user.comments)

@@ -56,4 +56,11 @@ export class BlogController {
   deleteBlogById(@Param('blogId') blogId: number) {
     return this.blogService.deleteBlogById(blogId);
   }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/blog')
+  getBlogs() {
+    return this.blogService.getBlogs();
+  }
 }

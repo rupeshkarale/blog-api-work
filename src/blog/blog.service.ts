@@ -49,4 +49,8 @@ export class BlogService {
 
     return this.blogsEntityRepository.remove(blogEntity);
   }
+
+  async getBlogs() {
+    return this.blogsEntityRepository.getBlogs();
+  }
 }

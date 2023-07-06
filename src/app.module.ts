@@ -9,15 +9,16 @@ import { AuthModule } from './auth/auth.module';
 import { UserController } from './user/user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtService } from '@nestjs/jwt/dist/jwt.service';
-
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: (process.env.PORT as any) || 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '123456',
+      host: process.env.localhost as any,
+      port: parseInt(process.env.DB_PORT as string, 10) || 3306,
+      username: process.env.username,
+      password: process.env.password,
       database: 'blog',
       entities: ['dist/**/*.entity.js'],
       synchronize: true,

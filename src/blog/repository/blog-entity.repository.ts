@@ -46,4 +46,8 @@ export class BlogEntityRepository {
   remove(blogEntity: BlogsEntity) {
     return this.blogEntityRepository.remove(blogEntity);
   }
+
+  getBlogs() {
+    return this.blogEntityRepository.find();
+  }
 }
