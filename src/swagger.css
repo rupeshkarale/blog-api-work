@@ -1,0 +1,30 @@
+/* swagger-dark.css */
+
+/* Set the background color of the Swagger UI */
+body {
+  background-color: #1f2129;
+}
+
+/* Set the text color */
+body, .opblock-summary-description, .opblock-description-wrapper p, .opblock-title span, .model-title {
+  color: #fff;
+}
+
+/* Set the background color and text color of the header */
+.topbar {
+  background-color: #1a1c23;
+  color: #fff;
+}
+
+/* Set the background color and text color of the side navigation */
+.sidebar {
+  background-color: #1a1c23;
+  color: #fff;
+}
+
+/* Set the background color of the content area */
+.opblock, .model {
+  background-color: #252830;
+}
+
+/* Customize other styles as needed */
