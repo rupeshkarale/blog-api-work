@@ -12,7 +12,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { secretKey } from './../shareble/constant';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { UsersEntity } from '../user/entities/user.entity';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { BlogService } from './blog.service';
 import { Request as ExpressRequest } from 'express';
@@ -34,14 +34,14 @@ export class BlogController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Get('/blog/:blogId')
+  @Get('/:blogId')
   getBlogById(@Param('blogId') blogId: number) {
     return this.blogService.getBlogById(blogId);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Patch('/blog/:blogId')
+  @Patch('/:blogId')
   updateBlogById(
     @Body() updateBlogDto: UpdateBlogDto,
     @Param('blogId') blogId: number,
@@ -52,14 +52,14 @@ export class BlogController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/blog/:blogId')
+  @Delete('/:blogId')
   deleteBlogById(@Param('blogId') blogId: number) {
     return this.blogService.deleteBlogById(blogId);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Get('/blog')
+  @Get('/')
   getBlogs() {
     return this.blogService.getBlogs();
   }

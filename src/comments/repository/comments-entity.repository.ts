@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { UsersEntity } from '../../user/entities/user.entity';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CommentsEntity } from '../entities/comments.entity';
 import { AddCommentDto } from '../dtos/add-comment.dto';
-import { BlogsEntity } from 'src/blog/entities/blogs.entity';
+import { BlogsEntity } from '../../blog/entities/blogs.entity';
 
 @Injectable()
 export class CommentsEntityRepository {

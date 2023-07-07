@@ -7,14 +7,12 @@ import { secretKey } from './shareble/constant';
 import { config } from 'dotenv';
 
 async function bootstrap() {
-
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
 
   const options = new DocumentBuilder()
-    .setTitle('Your API Title')
-    .setDescription('API Description')
+    .setTitle('Blog Api')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

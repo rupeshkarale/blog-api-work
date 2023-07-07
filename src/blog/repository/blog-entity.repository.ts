@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { BlogsEntity } from '../entities/blogs.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBlogDto } from '../dto/create-blog.dto';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { UsersEntity } from '../../user/entities/user.entity';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()

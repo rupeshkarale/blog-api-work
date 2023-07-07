@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { CommentsEntity } from 'src/comments/entities/comments.entity';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { CommentsEntity } from '../../comments/entities/comments.entity';
+import { UsersEntity } from '../../user/entities/user.entity';
 import {
   Entity,
   Column,

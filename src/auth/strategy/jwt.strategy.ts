@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../auth.service';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from '../interfaces/jwt-payload.interface';
-import { secretKey } from 'src/shareble/constant';
+import { secretKey } from '../../shareble/constant';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {

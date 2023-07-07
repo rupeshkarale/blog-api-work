@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { BlogsEntity } from 'src/blog/entities/blogs.entity';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { BlogsEntity } from '../../blog/entities/blogs.entity';
+import { UsersEntity } from '../../user/entities/user.entity';
 import {
   Entity,
   Column,

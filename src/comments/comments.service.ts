@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { AddCommentDto } from './dtos/add-comment.dto';
-import { UsersEntity } from 'src/user/entities/user.entity';
-import { BlogEntityRepository } from 'src/blog/repository/blog-entity.repository';
+import { UsersEntity } from '../user/entities/user.entity';
 import { CommentsEntityRepository } from './repository/comments-entity.repository';
 import { BlogService } from './../blog/blog.service';
 

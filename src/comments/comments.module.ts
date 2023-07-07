@@ -5,7 +5,7 @@ import { CommentsService } from './comments.service';
 import { CommentsEntityRepository } from './repository/comments-entity.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentsEntity } from './entities/comments.entity';
-import { BlogModule } from 'src/blog/blog.module';
+import { BlogModule } from '../blog/blog.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CommentsEntity]), BlogModule],

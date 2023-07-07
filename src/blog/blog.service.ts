@@ -2,7 +2,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { BlogEntityRepository } from './repository/blog-entity.repository';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { UsersEntity } from '../user/entities/user.entity';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 
 @Injectable()

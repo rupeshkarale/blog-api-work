@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserModule } from 'src/user/user.module';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { UserModule } from '../user/user.module';
+import { UsersEntity } from '../user/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtService } from '@nestjs/jwt/dist/jwt.service';
 import { TypeOrmModule } from '@nestjs/typeorm';

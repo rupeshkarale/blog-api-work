@@ -9,15 +9,18 @@ import {
   Get,
 } from '@nestjs/common';
 import { AddCommentDto } from './dtos/add-comment.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { CommentsService } from './comments.service';
 import { Request as ExpressRequest } from 'express';
-import { UsersEntity } from 'src/user/entities/user.entity';
+import { UsersEntity } from '../user/entities/user.entity';
 
+@ApiTags('Comment')
 @Controller()
 export class CommentsController {
   constructor(private readonly commentService: CommentsService) {}
+
+  @ApiTags('Comment')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post('/blog/:blogId/comment')
@@ -34,6 +37,6 @@ export class CommentsController {
   @UseGuards(AuthGuard('jwt'))
   @Get('/blog/:blogId/comment')
   getCommentsByBlogId(@Param('blogId') blogId: number) {
-    return this.commentService.getCommentsByBlogId(blogId)
+    return this.commentService.getCommentsByBlogId(blogId);
   }
 }
