@@ -47,7 +47,6 @@ export class AuthService {
       userId: userEntity.id,
       email: userEntity.email,
     };
-    console.log(secretKey);
     const token = await this.jwtService.signAsync(payload, {
       secret: secretKey,
     });

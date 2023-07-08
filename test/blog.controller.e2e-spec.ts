@@ -5,7 +5,6 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { BlogService } from '../src/blog/blog.service';
 import { CreateBlogDto } from '../src/blog/dto/create-blog.dto';
-import { UsersEntity } from '../src/user/entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { faker } from '@faker-js/faker';
 
@@ -69,41 +68,6 @@ describe('BlogController (e2e)', () => {
     await app.close();
   });
 
-  //   describe('/auth/signup (POST)', () => {
-  //     it('should create a new user', async () => {
-  //         const signupDto: SignupDto = {
-  //             email: faker.internet.email(),
-  //             password: String(faker.internet.password()),
-  //             name: faker.internet.name()
-  //         };
-
-  //       const response = await request(app.getHttpServer())
-  //         .post('/auth/signup')
-  //         .send(signupDto)
-  //         .expect(201);
-
-  //       expect(response).toBeDefined('id');
-  //     });
-  //   });
-
-  //   describe('/auth/login (POST)', () => {
-  //     it('should authenticate the user and return a JWT token', async () => {
-  //       const loginDto: LoginDto = {
-  //         email: 'testuser',
-  //         password: 'password',
-  //       };
-
-  //       const response = await request(app.getHttpServer())
-  //         .post('/auth/login')
-  //         .send(loginDto)
-  //         .expect(201);
-
-  //       const token = response.body.access_token;
-
-  //       expect(token).toBeDefined();
-  //     });
-  //   });
-
   describe('/blog (POST)', () => {
     it('should create a new blog', async () => {
       const createBlogDto: CreateBlogDto = {
@@ -129,7 +93,6 @@ describe('BlogController (e2e)', () => {
       const addCommentDto: AddCommentDto = {
         comment: faker.lorem.sentence(),
       };
-      console.log(addCommentDto);
       const response = await request(app.getHttpServer())
         .post(`/blog/${blogId}/comment`)
         .send(addCommentDto)
@@ -138,9 +101,6 @@ describe('BlogController (e2e)', () => {
 
       blogId = response.body.id;
       expect(response.body.comment).toEqual(addCommentDto.comment);
-      //   expect(response.body.comment);
-      //   expect(createdBlog.title).toEqual(createBlogDto.title);
-      //   expect(createdBlog.content).toEqual(createBlogDto.content);
     });
 
     it('add comment to new blog', async () => {
@@ -157,9 +117,6 @@ describe('BlogController (e2e)', () => {
         .delete(`/blog/blog/${blogId}`)
         .set('Authorization', `Bearer ${jwtToken}`)
         .expect(201);
-      console.log(response);
     });
   });
-
-  // Add more test cases for other endpoints (GET, PATCH, DELETE) similarly
 });
