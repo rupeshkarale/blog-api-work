@@ -17,7 +17,9 @@ export class BlogsEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({
+    length: 1024,
+  })
   content: string;
 
   @Column({
@@ -48,6 +50,6 @@ export class BlogsEntity {
   @ManyToOne(() => UsersEntity, (user) => user.blogs)
   user: UsersEntity;
 
-  @OneToMany(() => CommentsEntity, (comment) => comment.blog)
+  @OneToMany(() => CommentsEntity, (comment) => comment.blog, { cascade: true })
   comments: CommentsEntity[];
 }

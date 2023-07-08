@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { CommentsController } from './comments.controller';
 import { CommentsService } from './comments.service';
 import { CommentsEntityRepository } from './repository/comments-entity.repository';
@@ -8,8 +8,12 @@ import { CommentsEntity } from './entities/comments.entity';
 import { BlogModule } from '../blog/blog.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CommentsEntity]), BlogModule],
+  imports: [
+    TypeOrmModule.forFeature([CommentsEntity]),
+    forwardRef(() => BlogModule),
+  ],
   controllers: [CommentsController],
   providers: [CommentsService, CommentsEntityRepository],
+  exports: [CommentsService],
 })
 export class CommentsModule {}

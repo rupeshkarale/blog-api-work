@@ -1,4 +1,4 @@
-import { Body, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -47,6 +47,7 @@ export class AuthService {
       userId: userEntity.id,
       email: userEntity.email,
     };
+    console.log(secretKey);
     const token = await this.jwtService.signAsync(payload, {
       secret: secretKey,
     });
@@ -56,12 +57,16 @@ export class AuthService {
   async signup(createUserDto: SignupDto): Promise<UsersEntity> {
     const { name, email, password } = createUserDto;
 
+    await this.usersService.userAlreadyExist(createUserDto.email);
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const userEntity = this.userRepository.create({
       name,
       email,
       password: hashedPassword,
     });
+
     return await this.usersService.save(userEntity);
   }
 }

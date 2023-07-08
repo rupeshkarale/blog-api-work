@@ -17,7 +17,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       global: true,
-      secret: 'your-secret',
+      secret: process.env.SECRET_KEY,
     }),
   ],
   controllers: [AuthController],

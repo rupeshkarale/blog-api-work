@@ -1,14 +1,17 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { AddCommentDto } from './dtos/add-comment.dto';
 import { UsersEntity } from '../user/entities/user.entity';
 import { CommentsEntityRepository } from './repository/comments-entity.repository';
 import { BlogService } from './../blog/blog.service';
+import { forwardRef } from '@nestjs/common';
 
 @Injectable()
 export class CommentsService {
   constructor(
     private commentsEntityRepository: CommentsEntityRepository,
+
+    @Inject(forwardRef(() => BlogService))
     private blogService: BlogService,
   ) {}
 
@@ -19,7 +22,6 @@ export class CommentsService {
   ) {
     // Retrieve the blog entity by its ID
     const blogEntity = await this.blogService.getBlogById(blogId);
-console.log(process.env.password);
     // Create a new comment entity with the provided data
     const commentEntity = this.commentsEntityRepository.create(
       addCommentDto,
@@ -36,5 +38,9 @@ console.log(process.env.password);
 
   getCommentsByBlogId(blogId: number) {
     return this.commentsEntityRepository.getByBlogId(blogId);
+  }
+
+  deleteById(blogId: number) {
+    return this.commentsEntityRepository.deleteById(blogId);
   }
 }

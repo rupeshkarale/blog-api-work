@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class AddCommentDto {
   @ApiProperty({
@@ -8,5 +8,6 @@ export class AddCommentDto {
   })
   @IsNotEmpty()
   @IsString()
+  @Length(1, 255)
   comment: string;
 }

@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { BlogEntityRepository } from './repository/blog-entity.repository';
 import { UsersEntity } from '../user/entities/user.entity';
 import { UpdateBlogDto } from './dto/update-blog.dto';
+import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class BlogService {
-  constructor(private blogsEntityRepository: BlogEntityRepository) {}
+  constructor(
+    private blogsEntityRepository: BlogEntityRepository,
+
+    private commentService: CommentsService,
+  ) {}
 
   createBlog(createBlogDto: CreateBlogDto, userEntity: UsersEntity) {
     const blogEntity = this.blogsEntityRepository.create(
@@ -29,7 +34,6 @@ export class BlogService {
     updateBlogDto: UpdateBlogDto,
     userEntity: UsersEntity,
   ) {
-    console.log(blogId);
     const blogEntity = await this.blogsEntityRepository.getValidatedBlogById(
       blogId,
     );
@@ -46,7 +50,7 @@ export class BlogService {
     const blogEntity = await this.blogsEntityRepository.getValidatedBlogById(
       blogId,
     );
-
+    await this.commentService.deleteById(blogId);
     return this.blogsEntityRepository.remove(blogEntity);
   }
 

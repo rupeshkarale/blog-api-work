@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { secretKey } from './../shareble/constant';
 import { UsersEntity } from '../user/entities/user.entity';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { BlogService } from './blog.service';

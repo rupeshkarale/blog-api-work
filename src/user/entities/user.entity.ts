@@ -19,9 +19,9 @@ export class UsersEntity {
   @Column()
   password: string;
 
-  @OneToMany(() => BlogsEntity, (post) => post.user)
+  @OneToMany(() => BlogsEntity, (post) => post.user, { cascade: true })
   blogs: BlogsEntity[];
 
-  @OneToMany(() => CommentsEntity, (comment) => comment.user)
+  @OneToMany(() => CommentsEntity, (comment) => comment.user, { cascade: true })
   comments: CommentsEntity[];
 }

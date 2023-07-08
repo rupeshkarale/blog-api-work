@@ -7,14 +7,16 @@ import { BlogService } from '../src/blog/blog.service';
 import { CreateBlogDto } from '../src/blog/dto/create-blog.dto';
 import { UsersEntity } from '../src/user/entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { faker } from '@faker-js/faker';
+
 import { Repository } from 'typeorm';
 import { BlogsEntity } from '../src/blog/entities/blogs.entity';
 import { AuthService } from '../src/auth/auth.service';
 import { SignupDto } from '../src/auth/dtos/signup.dto';
 import { LoginDto } from '../src/auth/dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { JwtAuthGuard } from '../src/auth/guards/jwt-auth.guard';
-import { faker } from 'faker';
+import { AddCommentDto } from '../src/comments/dtos/add-comment.dto';
+// import { faker } from 'faker';
 
 describe('BlogController (e2e)', () => {
   let app: INestApplication;
@@ -22,12 +24,13 @@ describe('BlogController (e2e)', () => {
   let blogRepository: Repository<BlogsEntity>;
   let authService: AuthService;
   let jwtService: JwtService;
+  let jwtToken: string;
+  let blogId: number;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    })import { IsEmail } from 'class-validator';
-.compile();
+    }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
@@ -38,76 +41,70 @@ describe('BlogController (e2e)', () => {
     );
     authService = moduleFixture.get<AuthService>(AuthService);
     jwtService = moduleFixture.get<JwtService>(JwtService);
+
+    const signupDto: SignupDto = {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      name: faker.internet.displayName(),
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(signupDto)
+      .expect(201);
+
+    const loginDto: LoginDto = {
+      email: signupDto.email,
+      password: signupDto.password,
+    };
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(loginDto)
+      .expect(201);
+    jwtToken = loginResponse.body.token;
   });
 
   afterAll(async () => {
     await app.close();
   });
 
-  describe('/auth/signup (POST)', () => {
-    it('should create a new user', async () => {
-        const signupDto: SignupDto = {
-            email: faker.internet.email(),
-            password: String(faker.internet.password()),
-            name: faker.internet.name()
-        };
+  //   describe('/auth/signup (POST)', () => {
+  //     it('should create a new user', async () => {
+  //         const signupDto: SignupDto = {
+  //             email: faker.internet.email(),
+  //             password: String(faker.internet.password()),
+  //             name: faker.internet.name()
+  //         };
 
-      const response = await request(app.getHttpServer())
-        .post('/auth/signup')
-        .send(signupDto)
-        .expect(201);
+  //       const response = await request(app.getHttpServer())
+  //         .post('/auth/signup')
+  //         .send(signupDto)
+  //         .expect(201);
 
-      
+  //       expect(response).toBeDefined('id');
+  //     });
+  //   });
 
-      expect(response).toBeDefined(id);
-    });
-  });
+  //   describe('/auth/login (POST)', () => {
+  //     it('should authenticate the user and return a JWT token', async () => {
+  //       const loginDto: LoginDto = {
+  //         email: 'testuser',
+  //         password: 'password',
+  //       };
 
-  describe('/auth/login (POST)', () => {
-    it('should authenticate the user and return a JWT token', async () => {
-      const loginDto: LoginDto = {
-        username: 'testuser',
-        password: 'password',
-      };
+  //       const response = await request(app.getHttpServer())
+  //         .post('/auth/login')
+  //         .send(loginDto)
+  //         .expect(201);
 
-      const response = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send(loginDto)
-        .expect(201);
+  //       const token = response.body.access_token;
 
-      const token = response.body.access_token;
-
-      expect(token).toBeDefined();
-    });
-  });
+  //       expect(token).toBeDefined();
+  //     });
+  //   });
 
   describe('/blog (POST)', () => {
-    let jwtToken: string;
-
-    beforeAll(async () => {
-      const signupDto: SignupDto = {
-        username: faker.internet.userName(),
-        password: faker.internet.password(),
-      };
-
-      const response = await request(app.getHttpServer())
-        .post('/auth/signup')
-        .send(signupDto)
-        .expect(201);
-
-      const loginDto: LoginDto = {
-        username: signupDto.username,
-        password: signupDto.password,
-      };
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send(loginDto)
-        .expect(201);
-
-      jwtToken = loginResponse.body.access_token;
-    });
-
     it('should create a new blog', async () => {
       const createBlogDto: CreateBlogDto = {
         title: faker.lorem.sentence(),
@@ -115,16 +112,52 @@ describe('BlogController (e2e)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/blog')
+        .post('/blog/blog')
         .send(createBlogDto)
         .set('Authorization', `Bearer ${jwtToken}`)
         .expect(201);
 
-      const createdBlog = await blogRepository.findOne(response.body.id);
+      blogId = response.body.id;
 
-      expect(createdBlog).toBeDefined();
-      expect(createdBlog.title).toEqual(createBlogDto.title);
-      expect(createdBlog.content).toEqual(createBlogDto.content);
+      expect(response.body.title).toEqual(createBlogDto.title);
+      expect(response.body.content).toEqual(createBlogDto.content);
+    });
+  });
+
+  describe('/blog/blogId/comment (POST)', () => {
+    it('add comment to new blog', async () => {
+      const addCommentDto: AddCommentDto = {
+        comment: faker.lorem.sentence(),
+      };
+      console.log(addCommentDto);
+      const response = await request(app.getHttpServer())
+        .post(`/blog/${blogId}/comment`)
+        .send(addCommentDto)
+        .set('Authorization', `Bearer ${jwtToken}`)
+        .expect(201);
+
+      blogId = response.body.id;
+      expect(response.body.comment).toEqual(addCommentDto.comment);
+      //   expect(response.body.comment);
+      //   expect(createdBlog.title).toEqual(createBlogDto.title);
+      //   expect(createdBlog.content).toEqual(createBlogDto.content);
+    });
+
+    it('add comment to new blog', async () => {
+      const response = await request(app.getHttpServer())
+        .get(`/blog/${blogId}/comment`)
+        .set('Authorization', `Bearer ${jwtToken}`)
+        .expect(200);
+    });
+  });
+
+  describe('/blog/blogId (Delete)', () => {
+    it('delete blog by id', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/blog/blog/${blogId}`)
+        .set('Authorization', `Bearer ${jwtToken}`)
+        .expect(201);
+      console.log(response);
     });
   });
 

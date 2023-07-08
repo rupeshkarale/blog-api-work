@@ -1,12 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsString,
-  IsNumber,
-  Length,
-  IsOptional,
-} from 'class-validator';
+import { IsString, Length, IsOptional } from 'class-validator';
 
 export class UpdateBlogDto {
   @ApiProperty({

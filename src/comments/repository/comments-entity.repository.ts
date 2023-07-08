@@ -56,4 +56,8 @@ export class CommentsEntityRepository {
   getByBlogId(blogId: number) {
     return this.commentsEntityRepository.findBy({ blogId: blogId });
   }
+
+  deleteById(blogId: number) {
+    return this.commentsEntityRepository.delete({ blogId: blogId });
+  }
 }

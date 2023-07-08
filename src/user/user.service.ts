@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { IsEmail } from 'class-validator';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -21,5 +23,18 @@ export class UserService {
 
   async save(userEntity: UsersEntity) {
     return await this.userRepository.save(userEntity);
+  }
+
+  async getByEmail(email: string) {
+    return await this.userRepository.findOneBy({ email });
+  }
+
+  async userAlreadyExist(email: string) {
+    const userEntity = await this.getByEmail(email);
+    if (userEntity) {
+      throw new BadRequestException(
+        `'user already exist with email:'${email}'`,
+      );
+    }
   }
 }

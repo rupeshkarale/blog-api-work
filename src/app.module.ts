@@ -6,9 +6,7 @@ import { UserModule } from './user/user.module';
 import { CommentsModule } from './comments/comments.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { UserController } from './user/user.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtService } from '@nestjs/jwt/dist/jwt.service';
 import { ConfigModule } from '@nestjs/config';
 import { typeOrmAsyncConfig } from './config/typeorm-config';
 @Module({
